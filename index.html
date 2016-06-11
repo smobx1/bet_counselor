@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    <title>The Kelly Criterion</title>
+
+    <title>Bet Counselor App</title>
 
     <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
       <style>
@@ -13,6 +13,11 @@
               width: 50px;
               height: 50px;
           }
+          body{
+            background-image:url("bootstrap/pattern1.jpg");
+            color:#ddd;
+          }
+
       </style>
 
   </head>
@@ -21,31 +26,42 @@
 
     <div class="container">
       <div class="row">
-        <div class="col-xs-2 col-md-4" style="padding-top: 140px;">
-            <a href="https://twitter.com/NakromaR" target="_blank"><img src="bootstrap/twitter.svg" class="svg-icon"></a>
-            <br>
-            <a href="https://github.com/Nakroma" target="_blank"><img src="bootstrap/github.svg" class="svg-icon"></a>
-            <br>
-            <a href="http://steamcommunity.com/id/nakromar" target="_blank"><img src="bootstrap/steam.svg" class="svg-icon"></a>
-        </div>
+        <!-- <div class="col-xs-2 col-md-4" style="padding-top: 140px;"> -->
+            <!-- <a href="https://twitter.com/NakromaR" target="_blank"><img src="bootstrap/twitter.svg" class="svg-icon"></a> -->
+            <!-- <br>
+            <a href="https://github.com/Nakroma" target="_blank"><img src="bootstrap/github.svg" class="svg-icon"></a> -->
+            <!-- <br>
+            <a href="http://steamcommunity.com/id/nakromar" target="_blank"><img src="bootstrap/steam.svg" class="svg-icon"></a> -->
+        <!-- </div> -->
 
         <div class="col-md-col-xs-16 col-sm-6 col-md-4">
 
-          <center><h1>The Kelly Criterion</h1></center>
+          <center><h1>Bet Counselor</h1></center>
           <br>
 
           Your Bankroll
           <div class="input-group">
             <span class="input-group-addon" id="bankrolldesc">$</span>
-            <input type="text" class="form-control" id="bankroll" aria-describedby="bankrolldesc" placeholder="2.99">
+            <input type="text" class="form-control" id="bankroll" aria-describedby="bankrolldesc" placeholder="50">
           </div><br>
 
-          CSGL Odds (Team 1 / Team 2)
-          <div class="input-group">
+          <!-- HIDDEN -->
+          <div class="input-group" style="display:none;">
             <span class="input-group-addon" id="odddesc">%</span>
             <div class="row">
               <div class="col-md-6"><input type="text" class="form-control" id="csgl1" aria-describedby="bankrolldesc" placeholder="70"></div>
-              <div class="col-md-6"><input type="text" class="form-control" id="csgl2" aria-describedby="bankrolldesc" placeholder="30"></div> 
+              <div class="col-md-6"><input type="text" class="form-control" id="csgl2" aria-describedby="bankrolldesc" placeholder="30"></div>
+            </div>
+          </div><br>
+          <!-- HIDDEN END -->
+
+          Agency Odds
+          <div class="input-group">
+            <span class="input-group-addon" id="odddesc_test">Dec.</span>
+            <div class="row">
+              <div class="col-md-6"><input type="text"  maxlength="4" class="form-control" id="csgl1_test" aria-describedby="bankrolldesc_test" placeholder="2.00 - complete here"></div>
+              <div class="col-md-6"><input type="text"  maxlength="4" class="form-control" id="csgl2_test" aria-describedby="bankrolldesc_test" placeholder="3.00"></div>
+              <div class="col-md-6"><input type="text"  maxlength="4" class="form-control" id="csgl3_test" aria-describedby="bankrolldesc_test" placeholder="35.0"></div>
             </div>
           </div><br>
 
@@ -53,16 +69,19 @@
           <div class="input-group">
             <span class="input-group-addon" id="odddesc">%</span>
             <div class="row">
-              <div class="col-md-6"><input type="text" class="form-control" id="real1" aria-describedby="bankrolldesc" placeholder="60"></div>
-              <div class="col-md-6"><input type="text" class="form-control" id="real2" aria-describedby="bankrolldesc" placeholder="40"></div> 
+              <div class="col-md-6"><input type="text" class="form-control"  maxlength="2" id="real2" aria-describedby="bankrolldesc" placeholder="40"></div>
+              <div class="col-md-6"><input type="text" class="form-control"  maxlength="2" id="real1" aria-describedby="bankrolldesc" placeholder="60"></div>
+
             </div>
           </div><br>
 
           <br>
-          <button class="btn btn-default btn-block" onclick="calculate();">Calculate</button><br>
+          <button class="btn btn-default btn-block" onclick="calculate();validateInput();">Calculate</button><br>
 
-           <center><a href="https://en.wikipedia.org/wiki/Kelly_criterion">What is the Kelly Criterion?</a></center><br><br>
 
+
+           <center><a href="https://en.wikipedia.org/wiki/Kelly_criterion">What algorithm do we use?</a></center><br><br>
+           <div id="error_div" style="color:red;"></div>
             <div id="output">
 
           </div>
@@ -77,8 +96,26 @@
         var csgl2 = document.getElementById("csgl2");
         var real1 = document.getElementById("real1");
         var real2 = document.getElementById("real2");
+        var error_div = document.getElementById("error_div");
+
+        function validateInput(){
+          if(bankroll.value == ""){
+            error_div.innerHTML += "- bankroll field must NOT be blank!<br>";
+            document.getElementById("output").innerHTML = "";
+          }
+          if(csgl1_test.value == "" || csgl2_test.value == "" || csgl3_test.value == ""){
+            error_div.innerHTML += "- you must fill the agency odds fields!<br>";
+            document.getElementById("output").innerHTML = "";
+          }
+          if(real1.value == "" || real2.value == ""){
+            error_div.innerHTML += "- you must fill in your odds!<br>";
+            document.getElementById("output").innerHTML = "";
+          }
+        }
+
 
       function calculate() {
+        error_div.innerHTML = "";
         if (bankroll.value != "" && csgl1.value != "" && csgl2.value != "" && real1.value != "" && real2.value != "") {
             if (csgl1.value > csgl2.value) {
                 var c1 = csgl1.value/100;
@@ -118,17 +155,172 @@
         }
       }
 
-      csgl1.onkeyup = function() {
-        if (csgl1.value >= 0 && csgl1.value <= 100) {
-          csgl2.value = 100 - csgl1.value;
+
+
+
+
+      csgl1_test.onkeyup = function() {
+        if (csgl1_test.value >= 0 && csgl1_test.value <= 200) {
+          if(csgl1_test.value >= 0 && csgl1_test.value <= 1.05){
+            csgl2_test.value = 10.00;
+            csgl3_test.value = 30.00;
+
+            csgl1.value = 99;
+            csgl2.value = 100-csgl1.value;
+          } else if(csgl1_test.value > 1.05 && csgl1_test.value <= 1.10){
+            csgl2_test.value = 8.00;
+            csgl3_test.value = 21.00;
+
+            csgl1.value = 93;
+            csgl2.value = 100-csgl1.value;
+          } else if(csgl1_test.value > 1.10 && csgl1_test.value <= 1.20){
+            csgl2_test.value = 7.00;
+            csgl3_test.value = 19.00;
+
+            csgl1.value = 88;
+            csgl2.value = 100-csgl1.value;
+          } else if(csgl1_test.value > 1.20 && csgl1_test.value <= 1.30){
+            csgl2_test.value = 6.00;
+            csgl3_test.value = 12.50;
+
+            csgl1.value = 85;
+            csgl2.value = 100-csgl1.value;
+          } else if(csgl1_test.value > 1.30 && csgl1_test.value <= 1.40){
+            csgl2_test.value = 5.50;
+            csgl3_test.value = 7.50;
+
+            csgl1.value = 82;
+            csgl2.value = 100-csgl1.value;
+          } else if(csgl1_test.value > 1.40 && csgl1_test.value <= 1.50){
+            csgl2_test.value = 3.65;
+            csgl3_test.value = 6.75;
+
+            csgl1.value = 78;
+            csgl2.value = 100-csgl1.value;
+          } else if(csgl1_test.value > 1.50 && csgl1_test.value <= 1.60){
+            csgl2_test.value = 4.33;
+            csgl3_test.value = 6.20;
+
+            csgl1.value = 73;
+            csgl2.value = 100-csgl1.value;
+          } else if(csgl1_test.value > 1.60 && csgl1_test.value <= 1.70){
+            csgl2_test.value = 4.20;
+            csgl3_test.value = 5.50;
+
+            csgl1.value = 68;
+            csgl2.value = 100-csgl1.value;
+          } else if(csgl1_test.value > 1.70 && csgl1_test.value <= 1.80){
+            csgl2_test.value = 3.80;
+            csgl3_test.value = 4.80;
+
+            csgl1.value = 63;
+            csgl2.value = 100-csgl1.value;
+          } else if(csgl1_test.value > 1.80 && csgl1_test.value <= 1.90){
+            csgl2_test.value = 3.75;
+            csgl3_test.value = 4.20;
+
+            csgl1.value = 60;
+            csgl2.value = 100-csgl1.value;
+          } else if(csgl1_test.value > 1.90 && csgl1_test.value <= 2.00){
+            csgl2_test.value = 3.25;
+            csgl3_test.value = 3.75;
+
+            csgl1.value = 58;
+            csgl2.value = 100-csgl1.value;
+          } else if(csgl1_test.value > 2.00 && csgl1_test.value <= 2.25){
+            csgl2_test.value = 3.10;
+            csgl3_test.value = 3.50;
+
+            csgl1.value = 53;
+            csgl2.value = 100-csgl1.value;
+          } else if(csgl1_test.value > 2.25 && csgl1_test.value <= 2.50){
+            csgl2_test.value = 3.20;
+            csgl3_test.value = 2.80;
+
+            csgl1.value = 50;
+            csgl2.value = 100-csgl1.value;
+          } else if(csgl1_test.value > 2.50 && csgl1_test.value <= 3.00){
+            csgl2_test.value = 3.20;
+            csgl3_test.value = 2.40;
+
+            csgl1.value = 48;
+            csgl2.value = 100-csgl1.value;
+          } else if(csgl1_test.value > 3.00 && csgl1_test.value <= 3.50){
+            csgl2_test.value = 3.40;
+            csgl3_test.value = 2.75;
+
+            csgl1.value = 45;
+            csgl2.value = 100-csgl1.value;
+          } else if(csgl1_test.value > 3.50 && csgl1_test.value <= 4.00){
+            csgl2_test.value = 3.25;
+            csgl3_test.value = 2.20;
+
+            csgl1.value = 42;
+            csgl2.value = 100-csgl1.value;
+          } else if(csgl1_test.value > 4.00 && csgl1_test.value <= 4.50){
+            csgl2_test.value = 3.30;
+            csgl3_test.value = 1.90;
+
+            csgl1.value = 40;
+            csgl2.value = 100-csgl1.value;
+          } else if(csgl1_test.value > 4.50 && csgl1_test.value <= 5.00){
+            csgl2_test.value = 3.50;
+            csgl3_test.value = 1.70;
+
+            csgl1.value = 38;
+            csgl2.value = 100-csgl1.value;
+          } else if(csgl1_test.value > 5.00 && csgl1_test.value <= 6.00){
+            csgl2_test.value = 4.80;
+            csgl3_test.value = 1.60;
+
+            csgl1.value = 35;
+            csgl2.value = 100-csgl1.value;
+          } else if(csgl1_test.value > 6.00 && csgl1_test.value <= 7.00){
+            csgl2_test.value = 4.80;
+            csgl3_test.value = 1.40;
+
+            csgl1.value = 30;
+            csgl2.value = 100-csgl1.value;
+          } else if(csgl1_test.value > 7.00 && csgl1_test.value <= 9){
+            csgl2_test.value = 4.10;
+            csgl3_test.value = 1.44;
+
+            csgl1.value = 27;
+            csgl2.value = 100-csgl1.value;
+          } else if(csgl1_test.value > 9 && csgl1_test.value <= 12){
+            csgl2_test.value = 4.25;
+            csgl3_test.value = 1.20;
+
+            csgl1.value = 60;
+            csgl2.value = 100-csgl1.value;
+          } else if(csgl1_test.value > 12 && csgl1_test.value <= 15){
+            csgl2_test.value = 6.10;
+            csgl3_test.value = 1.14;
+
+            csgl1.value = 25;
+            csgl2.value = 100-csgl1.value;
+          } else if(csgl1_test.value > 15 && csgl1_test.value <= 20){
+            csgl2_test.value = 8.10;
+            csgl3_test.value = 1.08;
+
+            csgl1.value = 20;
+            csgl2.value = 100-csgl1.value;
+          } else if(csgl1_test.value > 20 && csgl1_test.value <= 30){
+            csgl2_test.value = 11.00;
+            csgl3_test.value = 1.03;
+
+            csgl1.value = 15;
+            csgl2.value = 100-csgl1.value;
+          }
         }
       }
 
-      csgl2.onkeyup = function() {
-        if (csgl2.value >= 0 && csgl2.value <= 100) {
-          csgl1.value = 100 - csgl2.value;
-        }
-      }
+
+      // csgl2_test.onkeyup = function() {
+      //   if (csgl2.value >= 0 && csgl2.value <= 100) {
+      //     csgl1.value = 100 - csgl2.value;
+      //   }
+      // }
 
       real1.onkeyup = function() {
         if (real1.value >= 0 && real1.value <= 100) {
@@ -142,7 +334,7 @@
         }
       }
 
-      
+
     </script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
