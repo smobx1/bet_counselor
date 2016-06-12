@@ -33,7 +33,7 @@
     <name>Bet Counselor App</name>
 
     <description>
-        Bet Counselor App.
+        Bet Counselor App uses Kelly Criterion to determine how much money one should place on a specific bet.
     </description>
 
     <author href="https://build.phonegap.com" email="support@phonegap.com">
