@@ -36,7 +36,7 @@
 
         <div class="col-md-col-xs-16 col-sm-6 col-md-4">
 
-          <center><h1>Bet Counselor</h1></center>
+          <center><h1>Bet Counselor App</h1></center>
           <br>
 
           Your Budget
@@ -46,7 +46,7 @@
           </div><br>
 
           <!-- HIDDEN -->
-          <div class="input-group">
+          <div class="input-group" style="display:none;">
             <span class="input-group-addon" id="odddesc">%</span>
             <div class="row">
               <div class="col-md-6"><input type="text" class="form-control" id="csgl1" aria-describedby="bankrolldesc" placeholder="70"></div>
@@ -55,13 +55,13 @@
           </div><br>
           <!-- HIDDEN END -->
 
-          Agency Odds
+          Agency Odds (Decimals)
           <div class="input-group">
             <span class="input-group-addon" id="odddesc_test">Dec.</span>
             <div class="row">
-              <div class="col-md-6"><input type="text"  maxlength="4" class="form-control" id="csgl1_test" aria-describedby="bankrolldesc_test" placeholder="2.00 - complete here"></div>
-              <div class="col-md-6"><input type="text"  maxlength="4" class="form-control" id="csgl2_test" aria-describedby="bankrolldesc_test" placeholder="3.00"></div>
-              <div class="col-md-6"><input type="text"  maxlength="4" class="form-control" id="csgl3_test" aria-describedby="bankrolldesc_test" placeholder="35.0"></div>
+              <div class="col-md-6"><input type="number"  maxlength="4" class="form-control" id="csgl1_test" aria-describedby="bankrolldesc_test" placeholder="2.00 - complete here"></div>
+              <div class="col-md-6"><input type="number"  maxlength="4" class="form-control" id="csgl2_test" aria-describedby="bankrolldesc_test" placeholder="3.00"></div>
+              <div class="col-md-6"><input type="number"  maxlength="4" class="form-control" id="csgl3_test" aria-describedby="bankrolldesc_test" placeholder="35.0"></div>
             </div>
           </div><br>
 
@@ -69,8 +69,8 @@
           <div class="input-group">
             <span class="input-group-addon" id="odddesc">%</span>
             <div class="row">
-              <div class="col-md-6"><input type="text" class="form-control"  maxlength="3" id="real2" aria-describedby="bankrolldesc" placeholder="40"></div>
-              <div class="col-md-6"><input type="text" class="form-control"  maxlength="3" id="real1" aria-describedby="bankrolldesc" placeholder="60"></div>
+              <div class="col-md-6"><input type="number" class="form-control"  maxlength="3" id="real2" aria-describedby="bankrolldesc" placeholder="40"></div>
+              <div class="col-md-6"><input type="number" class="form-control"  maxlength="3" id="real1" aria-describedby="bankrolldesc" placeholder="60"></div>
 
             </div>
           </div><br>
@@ -90,6 +90,9 @@
       </div>
     </div>
 
+    <!-- CORDOVA + ADMOB -->
+    <script type="text/javascript" src="admob_simple.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
     <script>
         var bankroll = document.getElementById("bankroll");
         var csgl1 = document.getElementById("csgl1");
@@ -115,10 +118,17 @@
             error_div.innerHTML += "- home odds must be over 15%!";
             document.getElementById("output").innerHTML = "";
           }
+
         }
 
 
       function calculate() {
+        // this will load a full screen ad on startup
+        AdMob.prepareInterstitial({
+          adId: admobid.interstitial,
+          isTesting: true, // TODO: remove this line when release
+          autoShow: true
+        });
         error_div.innerHTML = "";
         if (bankroll.value != "" && csgl1.value != "" && csgl2.value != "" && real1.value != "" && real2.value != "") {
             if (csgl1.value > csgl2.value) {
@@ -358,9 +368,7 @@
 
 
     </script>
-    <!-- CORDOVA + ADMOB -->
-    <script type="text/javascript" src="admob_simple.js"></script>
-    <script type="text/javascript" src="cordova.js"></script>
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>

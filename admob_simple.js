@@ -76,7 +76,7 @@ function initApp() {
     setTimeout(function() {
         someAdCode();
         // schedule it to repeat every 1 minutes
-        setInterval(someAdCode, 1 * 60 * 1000); // 1000 = 1s
+        setInterval(someAdCode, 2 * 60 * 1000); // 1000 = 1s
     }, 500);
 
 ///////     rewar                                         ded video
