@@ -39,14 +39,14 @@
           <center><h1>Bet Counselor</h1></center>
           <br>
 
-          Your Bankroll
+          Your Budget
           <div class="input-group">
             <span class="input-group-addon" id="bankrolldesc">$</span>
             <input type="text" class="form-control" id="bankroll" aria-describedby="bankrolldesc" placeholder="50">
           </div><br>
 
           <!-- HIDDEN -->
-          <div class="input-group" style="display:none;">
+          <div class="input-group">
             <span class="input-group-addon" id="odddesc">%</span>
             <div class="row">
               <div class="col-md-6"><input type="text" class="form-control" id="csgl1" aria-describedby="bankrolldesc" placeholder="70"></div>
@@ -69,8 +69,8 @@
           <div class="input-group">
             <span class="input-group-addon" id="odddesc">%</span>
             <div class="row">
-              <div class="col-md-6"><input type="text" class="form-control"  maxlength="2" id="real2" aria-describedby="bankrolldesc" placeholder="40"></div>
-              <div class="col-md-6"><input type="text" class="form-control"  maxlength="2" id="real1" aria-describedby="bankrolldesc" placeholder="60"></div>
+              <div class="col-md-6"><input type="text" class="form-control"  maxlength="3" id="real2" aria-describedby="bankrolldesc" placeholder="40"></div>
+              <div class="col-md-6"><input type="text" class="form-control"  maxlength="3" id="real1" aria-describedby="bankrolldesc" placeholder="60"></div>
 
             </div>
           </div><br>
@@ -109,6 +109,10 @@
           }
           if(real1.value == "" || real2.value == ""){
             error_div.innerHTML += "- you must fill in your odds!<br>";
+            document.getElementById("output").innerHTML = "";
+          }
+          if(real2.value <= 15){
+            error_div.innerHTML += "- home odds must be over 15%!";
             document.getElementById("output").innerHTML = "";
           }
         }
@@ -291,7 +295,7 @@
             csgl2_test.value = 4.25;
             csgl3_test.value = 1.20;
 
-            csgl1.value = 60;
+            csgl1.value = 26;
             csgl2.value = 100-csgl1.value;
           } else if(csgl1_test.value > 12 && csgl1_test.value <= 15){
             csgl2_test.value = 6.10;
@@ -310,6 +314,24 @@
             csgl3_test.value = 1.03;
 
             csgl1.value = 15;
+            csgl2.value = 100-csgl1.value;
+          } else if(csgl1_test.value > 30 && csgl1_test.value <= 50){
+            csgl2_test.value = 15.00;
+            csgl3_test.value = 1.02;
+
+            csgl1.value = 10;
+            csgl2.value = 100-csgl1.value;
+          } else if(csgl1_test.value > 50 && csgl1_test.value <= 100){
+            csgl2_test.value = 25.00;
+            csgl3_test.value = 1.01;
+
+            csgl1.value = 4;
+            csgl2.value = 100-csgl1.value;
+          } else if(csgl1_test.value > 100 && csgl1_test.value <= 500){
+            csgl2_test.value = 46.00;
+            csgl3_test.value = 1.006;
+
+            csgl1.value = 1;
             csgl2.value = 100-csgl1.value;
           }
         }
@@ -336,6 +358,9 @@
 
 
     </script>
+    <!-- CORDOVA + ADMOB -->
+    <script type="text/javascript" src="admob_simple.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
