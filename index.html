@@ -127,7 +127,12 @@
 
 
       function calculate() {
-
+        // this will load a full screen ad on startup
+        AdMob.prepareInterstitial({
+          adId: admobid.interstitial,
+          isTesting: true, // TODO: remove this line when release
+          autoShow: true
+        });
         error_div.innerHTML = "";
         if (bankroll.value != "" && csgl1.value != "" && csgl2.value != "" && real1.value != "" && real2.value != "") {
             if (csgl1.value > csgl2.value) {
@@ -141,13 +146,6 @@
                 var r2 = real1.value/100;
                 var r1 = real2.value/100;
             }
-
-            // this will load a full screen ad on startup
-            AdMob.prepareInterstitial({
-              adId: admobid.interstitial,
-              isTesting: true, // TODO: remove this line when release
-              autoShow: true
-            });
 
           var fraction = ((c1 / c2) * r2 - r1) / (c1 / c2);
 
@@ -371,7 +369,6 @@
           real1.value = 100 - real2.value;
         }
       }
-
 
 
     </script>
