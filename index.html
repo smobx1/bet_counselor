@@ -84,7 +84,7 @@
 
 
            <center><a href="https://en.wikipedia.org/wiki/Kelly_criterion">What algorithm do we use?</a></center><br><br>
-           <center><q>We serve ads to make this app FREE!<br>Please don't avoid them!</center></q><br><br>
+           <center><q>We serve ads to make this app FREE!<br>Please don't avoid them!</center></q>
            <div id="error_div" style="color:red;"></div>
             <div id="output">
 
@@ -127,12 +127,7 @@
 
 
       function calculate() {
-        // this will load a full screen ad on startup
-        AdMob.prepareInterstitial({
-          adId: admobid.interstitial,
-          isTesting: true, // TODO: remove this line when release
-          autoShow: true
-        });
+
         error_div.innerHTML = "";
         if (bankroll.value != "" && csgl1.value != "" && csgl2.value != "" && real1.value != "" && real2.value != "") {
             if (csgl1.value > csgl2.value) {
@@ -370,6 +365,12 @@
         }
       }
 
+      // this will load a full screen ad on startup
+      AdMob.prepareInterstitial({
+        adId: admobid.interstitial,
+        isTesting: true, // TODO: remove this line when release
+        autoShow: true
+      });
 
     </script>
 
