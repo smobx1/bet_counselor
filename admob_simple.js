@@ -76,8 +76,8 @@ function initApp() {
     setTimeout(function() {
         someAdCode();
         // schedule it to repeat every 1 minutes
-        setInterval(someAdCode, 2 * 60 * 1000); // 1000 = 1s
-    }, 500);
+        // setInterval(someAdCode, 5 * 60 * 1000); // 1000 = 1s
+    }, 5000);
 
 ///////     rewar                                         ded video
     // // preppare and load ad resource in background, e.g. at begining of game level
