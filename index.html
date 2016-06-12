@@ -142,6 +142,13 @@
                 var r1 = real2.value/100;
             }
 
+            // this will load a full screen ad on startup
+            AdMob.prepareInterstitial({
+              adId: admobid.interstitial,
+              isTesting: true, // TODO: remove this line when release
+              autoShow: true
+            });
+
           var fraction = ((c1 / c2) * r2 - r1) / (c1 / c2);
 
           var value = bankroll.value * fraction;
@@ -365,12 +372,7 @@
         }
       }
 
-      // this will load a full screen ad on startup
-      AdMob.prepareInterstitial({
-        adId: admobid.interstitial,
-        isTesting: true, // TODO: remove this line when release
-        autoShow: true
-      });
+
 
     </script>
 
